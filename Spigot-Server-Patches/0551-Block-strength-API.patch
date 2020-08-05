@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mark Vainomaa <mikroskeem@mikroskeem.eu>
+Date: Wed, 5 Aug 2020 15:53:27 +0300
+Subject: [PATCH] Block strength API
+
+
+diff --git a/src/main/java/net/minecraft/server/BlockBase.java b/src/main/java/net/minecraft/server/BlockBase.java
+index 7b0cc7833448a9e77e85be10f4e02ce43fdead58..eb4a91e779edfcd496eac34c678c2f7f43c8deef 100644
+--- a/src/main/java/net/minecraft/server/BlockBase.java
++++ b/src/main/java/net/minecraft/server/BlockBase.java
+@@ -294,7 +294,7 @@ public abstract class BlockBase {
+         private final boolean f;
+         private final Material g;
+         private final MaterialMapColor h;
+-        public final float strength;
++        public float strength; // Paper - remove final
+         private final boolean j;
+         private final boolean k;
+         private final BlockBase.e l;
+diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
+index 9b0e868f006a34b47ef9a48c7ea844be8122c291..d4e49ce2d83f78a7d59a57178cb2b3d02b526637 100644
+--- a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
++++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
+@@ -732,5 +732,15 @@ public class CraftBlock implements Block {
+     public com.destroystokyo.paper.block.BlockSoundGroup getSoundGroup() {
+         return new com.destroystokyo.paper.block.CraftBlockSoundGroup(getNMSBlock().getBlockData().getStepSound());
+     }
++
++    @Override
++    public float getStrength() {
++        return getNMS().strength;
++    }
++
++    @Override
++    public void setStrength(float strength) {
++        getNMS().strength = strength;
++    }
+     // Paper end
+ }
